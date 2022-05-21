@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserLookUpRepository extends JpaRepository<UserRegister, Integer> {
+public interface UserLookUpRepository extends JpaRepository<UserRegister, String> {
 
     @Query("select u from UserRegister u where u.emailAddress = :emailAddress")
     UserRegister findByEmailAddress(@Param("emailAddress") String emailAddress);
@@ -27,4 +27,8 @@ public interface UserLookUpRepository extends JpaRepository<UserRegister, Intege
     @Modifying
     @Query("update UserRegister u set u.isEmailVerify = :isEmailVerify where u.emailAddress = :emailAddress")
     void saveIsVerify(@Param("isEmailVerify") boolean isEmailVerify, @Param("emailAddress") String emailAddress);
+
+    @Modifying
+    @Query("update UserRegister u set u.userPassword = :userPassword where u.emailAddress = :emailAddress")
+    void forgetPassword(@Param("userPassword") String password, @Param("emailAddress") String emailAddress);
 }

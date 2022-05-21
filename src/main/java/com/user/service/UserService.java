@@ -8,6 +8,7 @@ import com.user.model.exception.EmailNotFoundException;
 import com.user.model.exception.EmailNotVerifyException;
 import com.user.model.exception.EmailPasswordException;
 import com.user.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class UserService {
 
     private UserRepository userRepository;
     private JwtTokenUtil jwtTokenUtil;
+
+    ModelMapper modelMapper = new ModelMapper();
 
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
@@ -50,26 +53,18 @@ public class UserService {
         if (!userRegister.isEmailVerify()) {
             throw new EmailNotVerifyException("Email Not Verify");
         }
-        UserLogInDTO userLogInDTO = null;
-        if (userRegister.getToken()==null) {
-            String JWT_Token = jwtTokenUtil.generateToken(userLogIn);
-            System.out.println(JWT_Token);
-            userRepository.saveToken(JWT_Token, userLogIn.getEmailAddress());
-            String DecrptJWT = jwtTokenUtil.getUsernameFromToken(JWT_Token);
-            userLogInDTO = UserLogInDTO.builder()
-                    .userName(userRegister.getUserName())
-                    .token(JWT_Token)
-                    .emailAddress(userRegister.getEmailAddress())
-                    .isEmailVerify(userRegister.isEmailVerify())
-                    .build();
-        }else {
-            userLogInDTO = UserLogInDTO.builder()
-                    .userName(userRegister.getUserName())
-                    .token(userRegister.getToken())
-                    .emailAddress(userRegister.getEmailAddress())
-                    .isEmailVerify(userRegister.isEmailVerify())
-                    .build();
-        }
+
+        String JWT_Token = jwtTokenUtil.generateToken(userLogIn);
+        System.out.println(JWT_Token);
+        userRepository.saveToken(JWT_Token, userLogIn.getEmailAddress());
+        String DecrptJWT = jwtTokenUtil.getUsernameFromToken(JWT_Token);
+        UserLogInDTO userLogInDTO = UserLogInDTO.builder()
+                .userName(userRegister.getUserName())
+                .token(JWT_Token)
+                .emailAddress(userRegister.getEmailAddress())
+                .isEmailVerify(userRegister.isEmailVerify())
+                .build();
+
 
         return userLogInDTO;
     }
