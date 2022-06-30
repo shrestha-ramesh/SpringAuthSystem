@@ -18,9 +18,9 @@ public class JwtTokenUtil  implements Serializable {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(UserLogIn userLogIn){
+    public String generateToken(UserLogIn userLogInDTO){
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userLogIn.getEmailAddress());
+        return doGenerateToken(claims, userLogInDTO.getEmailAddress());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String emailAddress) {
