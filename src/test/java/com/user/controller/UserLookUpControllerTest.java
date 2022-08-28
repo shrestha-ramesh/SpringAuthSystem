@@ -1,7 +1,7 @@
 package com.user.controller;
 
 import com.user.model.UserRegister;
-import com.user.model.exception.EmailNotFoundException;
+import com.user.exception.EmailNotFoundException;
 import com.user.service.UserLookUpService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

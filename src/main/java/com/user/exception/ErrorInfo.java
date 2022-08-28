@@ -1,4 +1,4 @@
-package com.user.model.exception;
+package com.user.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,1 +1,0 @@
-insert into product(id, name, price) values(1, 'Sushi Set', 34.90);

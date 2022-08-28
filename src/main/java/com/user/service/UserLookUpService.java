@@ -2,7 +2,7 @@ package com.user.service;
 
 
 import com.user.model.UserRegister;
-import com.user.model.exception.EmailNotFoundException;
+import com.user.exception.EmailNotFoundException;
 import com.user.repository.UserLookUpRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
