@@ -17,22 +17,22 @@ public class UserLookUpController {
     }
 
     @GetMapping("/userLookUp/{userLookUp}")
-    public ResponseEntity<UserRegister> userLookUp(@PathVariable("userLookUp") String emailAddress){
+    public ResponseEntity<String> userLookUp(@PathVariable("userLookUp") String emailAddress){
        UserRegister userRegister = userLookUpService.userLookUp(emailAddress);
-       return new ResponseEntity<UserRegister>(HttpStatus.OK);
+       return ResponseEntity.status(HttpStatus.OK).body("Email Found");
 
     }
 
     @PostMapping("/isEmailVerify")
-    public ResponseEntity<UserRegister> isEmailVerify(@RequestParam("email") String email){
+    public ResponseEntity<String> isEmailVerify(@RequestParam("email") String email){
         UserRegister userRegister = userLookUpService.isEmailVerify(email);
-        return new ResponseEntity<UserRegister>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Email Verify");
     }
 
     @GetMapping("/verifyAccessCode")
-    public ResponseEntity<UserRegister> verifyAccessCode(@RequestParam("emailAddress") String emailAddress, @RequestParam("accessCode") int accessCode){
+    public ResponseEntity<String> verifyAccessCode(@RequestParam("emailAddress") String emailAddress, @RequestParam("accessCode") int accessCode){
         UserRegister userRegister = userLookUpService.verifyAccessCode(emailAddress, accessCode);
-        return new ResponseEntity<UserRegister>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("AccessCode is Verify");
     }
     @PostMapping("/forget/password")
     public ResponseEntity<HttpStatus> forgetPassword(@RequestParam("emailAddress") String emailAddress, @RequestParam(value = "accessCode", required = false) Integer accessCode,

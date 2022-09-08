@@ -26,6 +26,15 @@ public class RestExceptionHandler {
         ArrayList<String> error = new ArrayList<>();
         error.add(ErrorResponseType.ERROR.toString());
 
+        if(emailNotFoundException.getMessage() == null){
+            return ErrorInfo.builder()
+                    .message(Globals.EMAIL_NOT_FOUND)
+                    .type(ErrorResponseType.ERROR)
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .errors(error)
+                    .build();
+        }
+
         return ErrorInfo.builder()
                 .message(Globals.EMAIL_NOT_FOUND+" "+emailNotFoundException.getMessage())
                 .type(ErrorResponseType.ERROR)

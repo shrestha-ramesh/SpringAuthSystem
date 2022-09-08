@@ -18,6 +18,6 @@ public class UserLogIn{
     private String emailAddress;
 
     @NotEmpty
-    @Size(min = 8, message = "password should have min 8 length")
+    @Size(min = 8, message = "must be minimum 8 length")
     private String userPassword;
 }

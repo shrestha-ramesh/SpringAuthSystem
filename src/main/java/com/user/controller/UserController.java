@@ -21,14 +21,14 @@ public class UserController {
     }
 
     @PostMapping("/userRegister")
-    public ResponseEntity<UserRegister> userRegister(@Valid @RequestBody UserRegister userRegister){
+    public ResponseEntity<String> userRegister(@Valid @RequestBody UserRegister userRegister){
         UserRegister userRegister1 = userService.userRegister(userRegister);
-        return new ResponseEntity<UserRegister>(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Account has been created");
     }
     @PostMapping("/userLogIn")
-    public ResponseEntity<UserLogInDTO> userLogIn(@Valid @RequestBody UserLogIn userLogIn){
+    public UserLogInDTO userLogIn(@Valid @RequestBody UserLogIn userLogIn){
         UserLogInDTO userLogInDTO = userService.userLogIn(userLogIn);
-        return new ResponseEntity<UserLogInDTO>(userLogInDTO, HttpStatus.OK);
+        return userLogInDTO;
     }
 
     @GetMapping("/userLogOut")

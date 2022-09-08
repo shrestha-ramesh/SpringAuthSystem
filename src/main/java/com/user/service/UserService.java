@@ -10,6 +10,7 @@ import com.user.exception.EmailPasswordException;
 import com.user.repository.UserRepository;
 import com.user.utils.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class UserService {
     private UserRepository userRepository;
     private JwtTokenUtil jwtTokenUtil;
 
-    ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    private ModelMapper modelMapper;
 
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
