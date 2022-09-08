@@ -1,8 +1,8 @@
 package com.user.controller;
 
-import com.user.model.UserLogIn;
-import com.user.model.UserLogInDTO;
-import com.user.model.UserRegister;
+import com.user.model.user.UserLogIn;
+import com.user.dto.UserLogInDTO;
+import com.user.model.user.UserRegister;
 import com.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

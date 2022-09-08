@@ -1,6 +1,6 @@
 package com.user.controller;
 
-import com.user.model.UserRegister;
+import com.user.model.user.UserRegister;
 import com.user.service.UserLookUpService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,8 @@ public class UserLookUpController {
     }
 
     @PostMapping("/isEmailVerify")
-    public ResponseEntity<UserRegister> isEmailVerify(@RequestParam("isEmailVerify") String isEmailVerify){
-        UserRegister userRegister = userLookUpService.isEmailVerify(isEmailVerify);
+    public ResponseEntity<UserRegister> isEmailVerify(@RequestParam("email") String email){
+        UserRegister userRegister = userLookUpService.isEmailVerify(email);
         return new ResponseEntity<UserRegister>(HttpStatus.OK);
     }
 

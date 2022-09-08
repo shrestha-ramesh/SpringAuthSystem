@@ -1,6 +1,6 @@
-package com.user.service;
+package com.user.utils;
 
-import com.user.model.UserLogIn;
+import com.user.model.user.UserLogIn;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

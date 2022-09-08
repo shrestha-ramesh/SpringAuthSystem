@@ -1,9 +1,10 @@
 package com.user.service;
 
 
-import com.user.model.UserRegister;
+import com.user.model.user.UserRegister;
 import com.user.exception.EmailNotFoundException;
 import com.user.repository.UserLookUpRepository;
+import com.user.utils.SendEmail;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class UserLookUpService {
     public UserRegister userLookUp(String emailAddress){
         UserRegister userRegister = userLookUpRepository.findByEmailAddress(emailAddress);
         if(userRegister == null){
-            throw new EmailNotFoundException("Email Not Found");
+            throw new EmailNotFoundException();
         }
         return userRegister;
     }
@@ -33,7 +34,7 @@ public class UserLookUpService {
     public UserRegister isEmailVerify(String isEmailVerify) {
         UserRegister userRegister = userLookUpRepository.isEmailVerify(isEmailVerify);
         if(userRegister == null){
-            throw new EmailNotFoundException("Email not Found "+isEmailVerify);
+            throw new EmailNotFoundException(isEmailVerify);
         } else {
             Random r = new Random( System.currentTimeMillis() );
             int accessCode = 10000 + r.nextInt(20000);
@@ -47,7 +48,7 @@ public class UserLookUpService {
     public UserRegister verifyAccessCode(String emailAddress, int accessCode) {
         UserRegister userRegister = userLookUpRepository.verifyAccessCode(emailAddress, accessCode);
         if (userRegister == null){
-            throw new EmailNotFoundException("Not Found");
+            throw new EmailNotFoundException();
         }else {
             userLookUpRepository.saveIsVerify(true, emailAddress);
         }
@@ -57,7 +58,7 @@ public class UserLookUpService {
     public HttpStatus forgetPassword(String emailAddress, Integer accessCode, String userPassword) {
         UserRegister userRegister = userLookUpRepository.isEmailVerify(emailAddress);
         if (userRegister == null)
-            throw new EmailNotFoundException("Email not found");
+            throw new EmailNotFoundException();
 
         if(!emailAddress.isEmpty() && accessCode != null){
             if(userRegister.getAccessCode() != accessCode){

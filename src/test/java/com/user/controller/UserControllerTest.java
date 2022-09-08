@@ -1,9 +1,9 @@
 package com.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.user.model.UserLogIn;
-import com.user.model.UserLogInDTO;
-import com.user.model.UserRegister;
+import com.user.model.user.UserLogIn;
+import com.user.dto.UserLogInDTO;
+import com.user.model.user.UserRegister;
 import com.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

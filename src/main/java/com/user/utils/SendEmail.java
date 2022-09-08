@@ -1,4 +1,4 @@
-package com.user.service;
+package com.user.utils;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

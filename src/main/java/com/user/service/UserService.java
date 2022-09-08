@@ -1,13 +1,14 @@
 package com.user.service;
 
-import com.user.model.UserLogIn;
-import com.user.model.UserLogInDTO;
-import com.user.model.UserRegister;
+import com.user.model.user.UserLogIn;
+import com.user.dto.UserLogInDTO;
+import com.user.model.user.UserRegister;
 import com.user.exception.EmailExistException;
 import com.user.exception.EmailNotFoundException;
 import com.user.exception.EmailNotVerifyException;
 import com.user.exception.EmailPasswordException;
 import com.user.repository.UserRepository;
+import com.user.utils.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,7 +33,7 @@ public class UserService {
     public UserRegister userRegister(UserRegister userRegister){
         UserRegister userRegister1 = userRepository.findByEmailAddress(userRegister.getEmailAddress());
         if(userRegister1 != null){
-            throw new EmailExistException("Email Exist");
+            throw new EmailExistException();
         }else {
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String newHash = bCryptPasswordEncoder.encode(userRegister.getUserPassword());
@@ -44,26 +45,21 @@ public class UserService {
     public UserLogInDTO userLogIn(UserLogIn userLogIn) {
         UserRegister userRegister = userRepository.userLogIn(userLogIn.getEmailAddress());
         if (userRegister == null) {
-            throw new EmailNotFoundException("Email Not Found ");
+            throw new EmailNotFoundException();
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!(bCryptPasswordEncoder.matches(userLogIn.getUserPassword(), userRegister.getUserPassword()))) {
-            throw new EmailPasswordException("Password not match");
+            throw new EmailPasswordException();
         }
         if (!userRegister.isEmailVerify()) {
-            throw new EmailNotVerifyException("Email Not Verify");
+            throw new EmailNotVerifyException();
         }
 
         String JWT_Token = jwtTokenUtil.generateToken(userLogIn);
         System.out.println(JWT_Token);
         userRepository.saveToken(JWT_Token, userLogIn.getEmailAddress());
         String DecrptJWT = jwtTokenUtil.getUsernameFromToken(JWT_Token);
-        UserLogInDTO userLogInDTO = UserLogInDTO.builder()
-                .userName(userRegister.getUserName())
-                .token(JWT_Token)
-                .emailAddress(userRegister.getEmailAddress())
-                .isEmailVerify(userRegister.isEmailVerify())
-                .build();
+        UserLogInDTO userLogInDTO = modelMapper.map(userRegister, UserLogInDTO.class);
 
 
         return userLogInDTO;

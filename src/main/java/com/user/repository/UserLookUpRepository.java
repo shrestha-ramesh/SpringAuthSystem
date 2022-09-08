@@ -1,7 +1,7 @@
 package com.user.repository;
 
 
-import com.user.model.UserRegister;
+import com.user.model.user.UserRegister;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
