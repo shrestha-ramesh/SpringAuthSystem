@@ -23,7 +23,7 @@ public class UserRegister {
     private String emailAddress;
 
     @NotEmpty
-    @Size(min = 8, message = "must be minimum 8 length")
+    @Size(min = 8, message = "must be min 8 length")
     private String userPassword;
 
     @NotEmpty

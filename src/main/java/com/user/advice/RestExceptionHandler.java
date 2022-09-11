@@ -5,6 +5,7 @@ import com.user.model.error.ErrorInfo;
 import com.user.model.error.ErrorResponseType;
 import com.user.model.error.Globals;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @AllArgsConstructor
+@Slf4j
 public class RestExceptionHandler {
 
     @ExceptionHandler(EmailNotFoundException.class)
@@ -27,6 +29,7 @@ public class RestExceptionHandler {
         error.add(ErrorResponseType.ERROR.toString());
 
         if(emailNotFoundException.getMessage() == null){
+            log.error(Globals.EMAIL_NOT_FOUND +" "+ HttpStatus.NOT_FOUND);
             return ErrorInfo.builder()
                     .message(Globals.EMAIL_NOT_FOUND)
                     .type(ErrorResponseType.ERROR)
@@ -34,6 +37,7 @@ public class RestExceptionHandler {
                     .errors(error)
                     .build();
         }
+        log.error(Globals.EMAIL_NOT_FOUND+" "+emailNotFoundException +" "+ HttpStatus.NOT_FOUND);
 
         return ErrorInfo.builder()
                 .message(Globals.EMAIL_NOT_FOUND+" "+emailNotFoundException.getMessage())
@@ -48,6 +52,8 @@ public class RestExceptionHandler {
         ArrayList<String> error = new ArrayList<>();
         error.add(ErrorResponseType.ERROR.toString());
 
+        log.error(Globals.EMAIL_EXIST);
+
         return ErrorInfo.builder()
                 .message(Globals.EMAIL_EXIST)
                 .type(ErrorResponseType.INVALID_INPUT)
@@ -60,6 +66,8 @@ public class RestExceptionHandler {
     public ErrorInfo handleEmailPasswordException(EmailPasswordException emailPasswordException){
         ArrayList<String> error = new ArrayList<>();
         error.add(ErrorResponseType.INVALID_INPUT.toString());
+
+        log.error(Globals.PASSWORD_NOT_MATCH +" "+HttpStatus.UNAUTHORIZED);
 
         return ErrorInfo.builder()
                 .message(Globals.PASSWORD_NOT_MATCH)
@@ -74,6 +82,8 @@ public class RestExceptionHandler {
         ArrayList<String> error = new ArrayList<>();
         error.add(ErrorResponseType.ERROR.toString());
 
+        log.error(Globals.EMAIL_NOT_VERIFY +" "+ HttpStatus.UNAUTHORIZED);
+
         return ErrorInfo.builder()
                 .message(Globals.EMAIL_NOT_VERIFY)
                 .type(ErrorResponseType.ERROR)
@@ -84,8 +94,12 @@ public class RestExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorInfo validationErrorResponse(MethodArgumentNotValidException e){
+
         List<String> collect = e.getBindingResult().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getField()+" "+fieldError.getDefaultMessage()).collect(Collectors.toList());
+
+        log.error(collect.toString() +" "+ HttpStatus.BAD_REQUEST);
+
         return ErrorInfo.builder()
                 .message(Globals.VALIDATION)
                 .type(ErrorResponseType.INVALID_INPUT)

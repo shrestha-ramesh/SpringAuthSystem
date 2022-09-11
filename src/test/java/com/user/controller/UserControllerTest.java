@@ -7,6 +7,8 @@ import com.user.model.user.UserRegister;
 import com.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,25 +32,19 @@ public class UserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private UserController userControllerTest;
+
     private UserRegister userRegister;
     private UserLogIn userLogIn;
-    private UserLogInDTO userLogInDTO;
+
+
+    private UserLogInDTO userLogInDTO = UserLogInDTO.builder().build();
 
     @BeforeEach
     void init(){
-        userRegister = UserRegister.builder()
-                .userName("Ramesh Shrestha")
-                .userPassword("Test1234")
-                .isEmailVerify(false)
-                .emailAddress("shresthashare@gmail.com")
-                .token("")
-                .accessCode(0)
-                .build();
-        userLogIn = UserLogIn.builder()
-                .emailAddress("shresthashare@gmail.com")
-                .userPassword("Test1234")
-                .build();
-        userLogInDTO = UserLogInDTO.builder().build();
+        userRegister = getUserRegister();
+        userLogIn = getUserLogIn();
     }
 
     @Test
@@ -57,7 +53,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/userRegister")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userRegister)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -113,7 +109,7 @@ public class UserControllerTest {
 
     @Test
     void whenLogInEmailIsInvalidInput_thenReturn400() throws Exception{
-        userLogIn.setEmailAddress("shresthashare");
+        userLogIn.setEmailAddress("shrestha6941");
         mockMvc.perform(post("/userLogIn")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userLogIn)))
@@ -137,5 +133,21 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userLogIn)))
                 .andExpect(status().isBadRequest());
+    }
+    private UserRegister getUserRegister(){
+        return UserRegister.builder()
+                .userName("Ramesh")
+                .userPassword("Test12345")
+                .isEmailVerify(false)
+                .emailAddress("shrestha6941@gmail.com")
+                .token("")
+                .accessCode(0)
+                .build();
+    }
+    private UserLogIn getUserLogIn(){
+        return UserLogIn.builder()
+                .emailAddress("shrestha6941@gmail.com")
+                .userPassword("Test1234")
+                .build();
     }
 }
