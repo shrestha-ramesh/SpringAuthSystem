@@ -1,5 +1,6 @@
 package com.user.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,10 @@ public class UserRegister {
     @NotEmpty
     private String userName;
 
+    @JsonIgnore
     private int accessCode;
+    @JsonIgnore
     private boolean isEmailVerify;
+    @JsonIgnore
     private String token;
 }
