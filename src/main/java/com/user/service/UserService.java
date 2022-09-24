@@ -1,5 +1,6 @@
 package com.user.service;
 
+import com.user.config.MQConfig;
 import com.user.model.user.UserLogIn;
 import com.user.dto.UserLogInDTO;
 import com.user.model.user.UserRegister;
@@ -10,6 +11,7 @@ import com.user.exception.EmailPasswordException;
 import com.user.repository.UserRepository;
 import com.user.utils.JwtTokenUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +29,9 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private RabbitTemplate template;
+
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -41,6 +46,9 @@ public class UserService {
             String newHash = bCryptPasswordEncoder.encode(userRegister.getUserPassword());
             userRegister.setUserPassword(newHash);
             userRepository.save(userRegister);
+
+            template.convertAndSend(MQConfig.EXCHANGE, MQConfig.ROUTING_KEY, userRegister);
+
         }
         return userRegister;
     }
