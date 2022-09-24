@@ -1,4 +1,4 @@
-package com.user.config;
+package com.user.rabbitmq;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

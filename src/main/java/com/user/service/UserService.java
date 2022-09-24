@@ -1,6 +1,6 @@
 package com.user.service;
 
-import com.user.config.MQConfig;
+import com.user.rabbitmq.MQConfig;
 import com.user.model.user.UserLogIn;
 import com.user.dto.UserLogInDTO;
 import com.user.model.user.UserRegister;

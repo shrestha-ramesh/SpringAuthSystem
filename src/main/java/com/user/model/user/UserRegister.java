@@ -1,10 +1,8 @@
 package com.user.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -30,10 +28,12 @@ public class UserRegister {
     @NotEmpty
     private String userName;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int accessCode;
-    @JsonIgnore
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isEmailVerify;
-    @JsonIgnore
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String token;
 }
