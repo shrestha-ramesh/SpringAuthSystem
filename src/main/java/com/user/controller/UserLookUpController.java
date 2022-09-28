@@ -37,6 +37,14 @@ public class UserLookUpController {
        return ResponseEntity.status(HttpStatus.OK).body("Email Found");
 
     }
+    @GetMapping("/dashboard")
+    public String getDashboard(){
+        return "This is dashboard";
+    }
+    @GetMapping("/home")
+    public String getHome(){
+        return "This is Home";
+    }
     @Operation(summary = "Check to see email is verify")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Email is verify",
