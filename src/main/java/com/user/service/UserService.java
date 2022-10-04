@@ -32,6 +32,9 @@ public class UserService {
     @Autowired
     private RabbitTemplate template;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -42,7 +45,6 @@ public class UserService {
         if(userRegister1 != null){
             throw new EmailExistException();
         }else {
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             String newHash = bCryptPasswordEncoder.encode(userRegister.getUserPassword());
             userRegister.setUserPassword(newHash);
             userRepository.save(userRegister);
@@ -57,7 +59,6 @@ public class UserService {
         if (userRegister == null) {
             throw new EmailNotFoundException();
         }
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (!(bCryptPasswordEncoder.matches(userLogIn.getUserPassword(), userRegister.getUserPassword()))) {
             throw new EmailPasswordException();
         }

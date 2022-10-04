@@ -36,6 +36,14 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Not available",
                     content = {@Content(mediaType = "application/json")})
     })
+    @GetMapping("/home")
+    public String getHome(){
+        return "This is home";
+    }
+    @GetMapping("/dash")
+    public String getDash(){
+        return "This is dash";
+    }
     @PostMapping("/userRegister")
     public ResponseEntity<String> userRegister(@Valid @RequestBody UserRegister userRegister){
         log.info("UserRegister started");
