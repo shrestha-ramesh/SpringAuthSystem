@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserLogInDTO {
     private String emailAddress;
-    private String userName;
     private boolean isEmailVerify;
     private String token;
 }

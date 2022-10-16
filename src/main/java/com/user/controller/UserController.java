@@ -40,6 +40,10 @@ public class UserController {
     public String getHome(){
         return "This is home";
     }
+    @GetMapping("/profile")
+    public String getProfile(){
+        return "This is profile";
+    }
     @GetMapping("/dash")
     public String getDash(){
         return "This is dash";

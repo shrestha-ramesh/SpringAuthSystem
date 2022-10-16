@@ -1,5 +1,7 @@
 package com.user.security;
 
+import com.user.model.error.ErrorResponseType;
+import com.user.userauthority.UserAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +16,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.user.userauthority.UserAuthority.ADMIN;
+import static com.user.userauthority.UserAuthority.USER;
+
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    CustomAuthenticationProvider customAuthenticationProvider;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService){
         this.customUserDetailsService = customUserDetailsService;
@@ -29,14 +37,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/userRegister","/userLogIn","/dash").permitAll()
+                .antMatchers("/userRegister","/userLogIn").permitAll()
+                .antMatchers("/profile").hasAnyAuthority(ADMIN)
+                .antMatchers("/home").hasAnyAuthority(USER)
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
     }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+//        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        System.out.println("This is authenticationMangerBean");
         return super.authenticationManagerBean();
     }
 }

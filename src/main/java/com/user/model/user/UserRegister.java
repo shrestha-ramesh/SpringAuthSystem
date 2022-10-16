@@ -2,6 +2,7 @@ package com.user.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.user.model.authority.Authority;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,8 +26,9 @@ public class UserRegister {
     @Size(min = 8, message = "must be min 8 length")
     private String userPassword;
 
-    @NotEmpty
-    private String userName;
+    @OneToOne
+    @JoinColumn(name = "authority_id")
+    private Authority authority;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int accessCode;
