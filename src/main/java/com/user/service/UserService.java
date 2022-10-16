@@ -14,6 +14,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +39,11 @@ public class UserService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    Authentication authentication;
 
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
@@ -65,14 +75,17 @@ public class UserService {
         if (!userRegister.isEmailVerify()) {
             throw new EmailNotVerifyException();
         }
-
+        try {
+            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogIn.getEmailAddress(), userLogIn.getUserPassword()));
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }catch (BadCredentialsException e){
+            throw new EmailNotFoundException();
+        }
         String JWT_Token = jwtTokenUtil.generateToken(userLogIn);
         System.out.println(JWT_Token);
         userRepository.saveToken(JWT_Token, userLogIn.getEmailAddress());
         String DecrptJWT = jwtTokenUtil.getUsernameFromToken(JWT_Token);
         UserLogInDTO userLogInDTO = modelMapper.map(userRegister, UserLogInDTO.class);
-
-
         return userLogInDTO;
     }
 
