@@ -9,8 +9,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @NoArgsConstructor
@@ -26,9 +29,8 @@ public class UserRegister {
     @Size(min = 8, message = "must be min 8 length")
     private String userPassword;
 
-    @OneToOne
-    @JoinColumn(name = "authority_id")
-    private Authority authority;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userRegister")
+    private Set<Authority> authoritySet;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int accessCode;

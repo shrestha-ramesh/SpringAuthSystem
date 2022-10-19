@@ -1,5 +1,6 @@
 package com.user.security;
 
+import com.user.model.authority.Authority;
 import com.user.model.user.UserRegister;
 import com.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -43,14 +46,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         System.out.println("This is database email "+userRegister.getEmailAddress());
         System.out.println("This is database password "+userRegister.getUserPassword());
         if(bCryptPasswordEncoder.matches(password, userRegister.getUserPassword())){
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(userRegister.getAuthority().getAuthority()));
-            return new UsernamePasswordAuthenticationToken(email, password, authorities);
+            return new UsernamePasswordAuthenticationToken(email, password, getAuthorities(userRegister.getAuthoritySet()));
         }else {
             throw new BadCredentialsException("Invalid Credentials");
         }
     }
-
+    private Set<SimpleGrantedAuthority> getAuthorities(Set<Authority> authorities){
+        Set<SimpleGrantedAuthority> list = new HashSet<>();
+        for(Authority auth: authorities){
+            list.add(new SimpleGrantedAuthority(auth.getAuthority()));
+        }
+        return list;
+    }
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);

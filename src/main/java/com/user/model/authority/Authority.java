@@ -1,15 +1,12 @@
 package com.user.model.authority;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.user.model.user.UserRegister;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -20,4 +17,8 @@ public class Authority {
     private Long id;
 
     private String authority;
+
+    @ManyToOne
+    @JoinColumn(name = "user_register_email_address")
+    private UserRegister userRegister;
 }
