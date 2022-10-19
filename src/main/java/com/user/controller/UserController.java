@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,10 +42,12 @@ public class UserController {
         return "This is home";
     }
     @GetMapping("/profile")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getProfile(){
         return "This is profile";
     }
     @GetMapping("/dash")
+    @PreAuthorize("hasRole('USER')")
     public String getDash(){
         return "This is dash";
     }
