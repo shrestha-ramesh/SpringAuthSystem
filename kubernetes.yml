@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes' resource kind creating
+metadata: # Metadata is about application name and label
+  name: app-kuber
+spec: # Group multiple pods inside a single service that's why using selector and label
+  selector:
+    matchLabels:
+      app: app-kuber
+  replicas: 3 # how many instances needs
+  template:
+    metadata:
+      labels:
+        app: app-kuber
+    spec:
+      containers:
+        - name: app-kuber
+          image: app:1.0 # Image that will be used to container in the cluster
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080 # The port that the container is running on in the cluster
