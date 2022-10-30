@@ -7,8 +7,6 @@ import com.user.model.user.UserRegister;
 import com.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -78,7 +76,6 @@ public class UserControllerTest {
 
     @Test
     void whenUserRegisterUserNameIsInvalidInput_thenReturn400() throws Exception{
-        userRegister.setUserName("");
         when(mockUserService.userRegister(userRegister)).thenReturn(userRegister);
         mockMvc.perform(post("/userRegister")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +85,6 @@ public class UserControllerTest {
 
     @Test
     void whenUserRegisterEmailPasswordUserNameAreNull_thenReturn400() throws Exception{
-        userRegister.setUserName(null);
         userRegister.setUserPassword(null);
         userRegister.setEmailAddress(null);
         when(mockUserService.userRegister(userRegister)).thenReturn(userRegister);
@@ -136,7 +132,6 @@ public class UserControllerTest {
     }
     private UserRegister getUserRegister(){
         return UserRegister.builder()
-                .userName("Ramesh")
                 .userPassword("Test12345")
                 .isEmailVerify(false)
                 .emailAddress("shrestha6941@gmail.com")

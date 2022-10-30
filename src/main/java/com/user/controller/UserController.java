@@ -1,5 +1,6 @@
 package com.user.controller;
 
+import com.user.common.model.Products;
 import com.user.model.user.UserLogIn;
 import com.user.dto.UserLogInDTO;
 import com.user.model.user.UserRegister;
@@ -38,8 +39,11 @@ public class UserController {
                     content = {@Content(mediaType = "application/json")})
     })
     @GetMapping("/home")
-    public String getHome(){
-        return "This is home";
+    public Products getHome(){
+        String uri = "http://localhost:8081/module1";
+        RestTemplate restTemplate = new RestTemplate();
+        Products products = restTemplate.getForObject(uri, Products.class);
+        return products;
     }
     @GetMapping("/profile")
     @PreAuthorize("hasRole('ADMIN')")
