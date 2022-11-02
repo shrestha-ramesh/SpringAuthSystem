@@ -1,6 +1,9 @@
 package com.user.model.user;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;

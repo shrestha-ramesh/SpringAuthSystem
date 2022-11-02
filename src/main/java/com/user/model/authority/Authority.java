@@ -1,7 +1,11 @@
 package com.user.model.authority;
 
 import com.user.model.user.UserRegister;
-import lombok.*;
+
+import lombok.Setter;
+import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

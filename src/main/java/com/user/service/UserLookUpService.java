@@ -14,6 +14,7 @@ import java.util.Random;
 
 @Transactional
 @Service
+
 public class UserLookUpService {
 
     private UserLookUpRepository userLookUpRepository;

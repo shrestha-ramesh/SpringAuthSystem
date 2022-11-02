@@ -1,4 +1,3 @@
 rootProject.name = 'user'
 include 'module-1'
 include 'common'
-

@@ -3,6 +3,13 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'org.springframework.boot'
@@ -13,18 +20,9 @@ allprojects{
 	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '11'
 
-	configurations {
-		compileOnly.extendsFrom annotationProcessor
-		implementation.extendsFrom annotationProcessor
-		testImplementation.extendsFrom annotationProcessor
-	}
 	repositories {
 		mavenCentral()
 	}
-	tasks.named('test') {
-		useJUnitPlatform()
-	}
-
 }
 dependencies {
 	implementation project(":common")
@@ -39,6 +37,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.4'
 	runtimeOnly 'mysql:mysql-connector-java'
@@ -47,4 +46,7 @@ dependencies {
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.4.0'
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE'
 	testImplementation "com.github.tomakehurst:wiremock-jre8:2.34.0"
+}
+tasks.named('test') {
+	useJUnitPlatform()
 }

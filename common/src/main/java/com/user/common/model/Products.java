@@ -1,12 +1,14 @@
 package com.user.common.model;
 
-import lombok.*;
+import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
-@Setter
-@Getter
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Products {
