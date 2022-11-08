@@ -23,10 +23,10 @@ public class Home {
         a.setName("noodle");
         a.setBrand("rames");
         Product b = new Product(2,"noodle","ramen");
-//        Product c = new Product(3,"noodle","ramen");
+        Product c = new Product(3,"noodle","ramen");
         listProduct.add(a);
-//        listProduct.add(b);
-//        listProduct.add(c);
+        listProduct.add(b);
+        listProduct.add(c);
         return Products.builder().products(listProduct).build();
     }
 }
