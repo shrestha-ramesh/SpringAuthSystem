@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Random;
+import java.util.function.Predicate;
 
 @Transactional
 @Service
@@ -20,13 +21,21 @@ public class UserLookUpService {
     private UserLookUpRepository userLookUpRepository;
     private SendEmail sendEmail;
 
+    Predicate<UserRegister> checkUserRegister =(userRegister)->{
+        if(userRegister == null){
+            return true;
+        }else {
+            return false;
+        }
+    };
+
     public UserLookUpService(UserLookUpRepository userLookUpRepository, SendEmail sendEmail){
         this.userLookUpRepository = userLookUpRepository;
         this.sendEmail = sendEmail;
     }
     public UserRegister userLookUp(String emailAddress){
         UserRegister userRegister = userLookUpRepository.findByEmailAddress(emailAddress);
-        if(userRegister == null){
+        if(checkUserRegister.test(userRegister)){
             throw new EmailNotFoundException();
         }
         return userRegister;
@@ -34,7 +43,7 @@ public class UserLookUpService {
 
     public UserRegister isEmailVerify(String isEmailVerify) {
         UserRegister userRegister = userLookUpRepository.isEmailVerify(isEmailVerify);
-        if(userRegister == null){
+        if(checkUserRegister.test(userRegister)){
             throw new EmailNotFoundException(isEmailVerify);
         } else {
             Random r = new Random( System.currentTimeMillis() );
@@ -48,7 +57,7 @@ public class UserLookUpService {
 
     public UserRegister verifyAccessCode(String emailAddress, int accessCode) {
         UserRegister userRegister = userLookUpRepository.verifyAccessCode(emailAddress, accessCode);
-        if (userRegister == null){
+        if (checkUserRegister.test(userRegister)){
             throw new EmailNotFoundException();
         }else {
             userLookUpRepository.saveIsVerify(true, emailAddress);
@@ -58,7 +67,7 @@ public class UserLookUpService {
 
     public HttpStatus forgetPassword(String emailAddress, Integer accessCode, String userPassword) {
         UserRegister userRegister = userLookUpRepository.isEmailVerify(emailAddress);
-        if (userRegister == null)
+        if (checkUserRegister.test(userRegister))
             throw new EmailNotFoundException();
 
         if(!emailAddress.isEmpty() && accessCode != null){
