@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.function.Function;
 
 @Transactional
 @Service
@@ -45,13 +46,18 @@ public class UserService {
 
     Authentication authentication;
 
+    Function<String, UserRegister> getUserRegister = (gur)->{
+        UserRegister userRegister = userRepository.findByEmailAddress(gur);
+        return userRegister;
+    };
+
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
     public UserRegister userRegister(UserRegister userRegister){
-        UserRegister userRegister1 = userRepository.findByEmailAddress(userRegister.getEmailAddress());
+        UserRegister userRegister1 = getUserRegister.apply(userRegister.getEmailAddress());
         if(userRegister1 != null){
             throw new EmailExistException();
         }else {
@@ -65,7 +71,7 @@ public class UserService {
         return userRegister;
     }
     public UserLogInDTO userLogIn(UserLogIn userLogIn) {
-        UserRegister userRegister = userRepository.userLogIn(userLogIn.getEmailAddress());
+        UserRegister userRegister = getUserRegister.apply(userLogIn.getEmailAddress());
         if (userRegister == null) {
             throw new EmailNotFoundException();
         }
@@ -94,7 +100,7 @@ public class UserService {
         if(userEmail==null){
             return HttpStatus.NOT_FOUND;
         }
-        UserRegister user = userRepository.findByEmailAddress(userEmail);
+        UserRegister user = getUserRegister.apply(userEmail);
         if(user == null){
             return HttpStatus.UNAUTHORIZED;
         }

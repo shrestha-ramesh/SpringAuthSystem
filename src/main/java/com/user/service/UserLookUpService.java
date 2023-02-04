@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 @Transactional
@@ -29,12 +30,17 @@ public class UserLookUpService {
         }
     };
 
+    Function<String, UserRegister> getUserRegister = (gur)->{
+        UserRegister userRegister = userLookUpRepository.findByEmailAddress(gur);
+        return userRegister;
+    };
+
     public UserLookUpService(UserLookUpRepository userLookUpRepository, SendEmail sendEmail){
         this.userLookUpRepository = userLookUpRepository;
         this.sendEmail = sendEmail;
     }
     public UserRegister userLookUp(String emailAddress){
-        UserRegister userRegister = userLookUpRepository.findByEmailAddress(emailAddress);
+        UserRegister userRegister = getUserRegister.apply(emailAddress);
         if(checkUserRegister.test(userRegister)){
             throw new EmailNotFoundException();
         }
@@ -42,7 +48,7 @@ public class UserLookUpService {
     }
 
     public UserRegister isEmailVerify(String isEmailVerify) {
-        UserRegister userRegister = userLookUpRepository.isEmailVerify(isEmailVerify);
+        UserRegister userRegister = getUserRegister.apply(isEmailVerify);
         if(checkUserRegister.test(userRegister)){
             throw new EmailNotFoundException(isEmailVerify);
         } else {
@@ -66,7 +72,7 @@ public class UserLookUpService {
     }
 
     public HttpStatus forgetPassword(String emailAddress, Integer accessCode, String userPassword) {
-        UserRegister userRegister = userLookUpRepository.isEmailVerify(emailAddress);
+        UserRegister userRegister = getUserRegister.apply(emailAddress);
         if (checkUserRegister.test(userRegister))
             throw new EmailNotFoundException();
 

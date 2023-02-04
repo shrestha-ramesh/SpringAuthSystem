@@ -14,8 +14,8 @@ public interface UserLookUpRepository extends JpaRepository<UserRegister, String
     @Query("select u from UserRegister u where u.emailAddress = :emailAddress")
     UserRegister findByEmailAddress(@Param("emailAddress") String emailAddress);
 
-    @Query("select u from UserRegister u where u.emailAddress = :emailAddress")
-    UserRegister isEmailVerify(@Param("emailAddress") String isEmailVerify);
+//    @Query("select u from UserRegister u where u.emailAddress = :emailAddress")
+//    UserRegister isEmailVerify(@Param("emailAddress") String isEmailVerify);
 
     @Modifying
     @Query("update UserRegister u set u.accessCode = :accessCode where u.emailAddress = :emailAddress")
