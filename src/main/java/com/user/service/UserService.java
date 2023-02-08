@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @Transactional
 @Service
@@ -50,7 +52,13 @@ public class UserService {
         UserRegister userRegister = userRepository.findByEmailAddress(gur);
         return userRegister;
     };
-
+    Predicate<UserRegister> checkUserRegister =(userRegister)->{
+        if(userRegister == null){
+            return true;
+        }else {
+            return false;
+        }
+    };
     public UserService(UserRepository userRepository,JwtTokenUtil jwtTokenUtil){
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
@@ -58,7 +66,7 @@ public class UserService {
 
     public UserRegister userRegister(UserRegister userRegister){
         UserRegister userRegister1 = getUserRegister.apply(userRegister.getEmailAddress());
-        if(userRegister1 != null){
+        if(!checkUserRegister.test(userRegister1)){
             throw new EmailExistException();
         }else {
             String newHash = bCryptPasswordEncoder.encode(userRegister.getUserPassword());
@@ -72,7 +80,7 @@ public class UserService {
     }
     public UserLogInDTO userLogIn(UserLogIn userLogIn) {
         UserRegister userRegister = getUserRegister.apply(userLogIn.getEmailAddress());
-        if (userRegister == null) {
+        if (checkUserRegister.test(userRegister)) {
             throw new EmailNotFoundException();
         }
         if (!(bCryptPasswordEncoder.matches(userLogIn.getUserPassword(), userRegister.getUserPassword()))) {
@@ -101,7 +109,7 @@ public class UserService {
             return HttpStatus.NOT_FOUND;
         }
         UserRegister user = getUserRegister.apply(userEmail);
-        if(user == null){
+        if(checkUserRegister.test(user)){
             return HttpStatus.UNAUTHORIZED;
         }
         if(!user.getToken().equals(token)){
