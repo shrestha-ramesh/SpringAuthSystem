@@ -20,7 +20,7 @@ public class Scheduler {
     @Autowired
     RabbitTemplate template;
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 9000)
     public void scheduler() throws InterruptedException{
         LocalDateTime current = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

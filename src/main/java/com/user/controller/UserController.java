@@ -4,26 +4,20 @@ import com.user.common.model.Products;
 import com.user.model.user.UserLogIn;
 import com.user.dto.UserLogInDTO;
 import com.user.model.user.UserRegister;
+import com.user.service.ProductAPI;
+import com.user.service.ProductService;
 import com.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 
 
 @RestController
@@ -31,11 +25,11 @@ import java.net.URI;
 public class UserController {
 
     private UserService userService;
+    private ProductService productService;
 
-    private String url = "http://localhost:8081";
-
-    public UserController(UserService userService){
+    public UserController(UserService userService, ProductService productService){
         this.userService = userService;
+        this.productService = productService;
     }
 
     @Operation(summary = "This is UserRegister store the data")
@@ -47,20 +41,7 @@ public class UserController {
     })
     @GetMapping("/home")
     public Products getHome(){
-        RestTemplate restTemplate = new RestTemplate();
-        Products products;
-        URI module1Uri = UriComponentsBuilder.fromUriString(url).path("/module1").build().toUri();
-        RequestEntity requestEntity = RequestEntity.get(module1Uri).header(HttpHeaders.AUTHORIZATION,"auth").build();
-        try {
-            ResponseEntity<Products> responseEntity = restTemplate.exchange(requestEntity, Products.class);
-            products = responseEntity.getBody();
-        }catch (HttpClientErrorException e){
-            if(e.getRawStatusCode() == 404){
-                throw new RuntimeException("Not Found");
-            }else {
-                throw new RuntimeException("Api Fail");
-            }
-        }
+        Products products= productService.getProductAPI();
         return products;
     }
     @GetMapping("/profile")

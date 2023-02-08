@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/user
+    username: sammy
+    password: password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
+  mail:
+    host: smtp.gmail.com
+  port: 587
+  username: ahtserhs227@gmail.com
+  password: bwheboifinhtmwrr
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+  application:
+    name: user
+jwt:
+  secret: ramesh
+  vehicle:
+    car: qwe1234
+    bike: poi098
