@@ -26,6 +26,7 @@ allprojects{
 }
 dependencies {
 	implementation project(":common")
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 	implementation 'org.springframework.amqp:spring-rabbit:2.4.7'
 	implementation 'org.springframework.boot:spring-boot-starter-web'

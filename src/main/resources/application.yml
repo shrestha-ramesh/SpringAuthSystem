@@ -28,3 +28,12 @@ jwt:
   vehicle:
     car: qwe1234
     bike: poi098
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: "ALWAYS"
