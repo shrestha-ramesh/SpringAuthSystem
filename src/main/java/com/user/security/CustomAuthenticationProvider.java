@@ -37,14 +37,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
-        System.out.println("This is input email "+ email);
-        System.out.println("This is input password "+password);
         UserRegister userRegister = userRepository.findByEmailAddress(email);
         if(userRegister == null){
             throw new UsernameNotFoundException("User not found");
         }
-        System.out.println("This is database email "+userRegister.getEmailAddress());
-        System.out.println("This is database password "+userRegister.getUserPassword());
         if(bCryptPasswordEncoder.matches(password, userRegister.getUserPassword())){
             return new UsernamePasswordAuthenticationToken(email, password, getAuthorities(userRegister.getAuthoritySet()));
         }else {

@@ -23,6 +23,7 @@ spring:
           enable: true
   application:
     name: user
+
 jwt:
   secret: ramesh
   vehicle:
@@ -37,3 +38,12 @@ management:
   endpoint:
     health:
       show-details: "ALWAYS"
+  health:
+    mail:
+      enabled: false
+
+Db-on:
+  health-check: true
+
+DiskSpace-on:
+  health-check: true
