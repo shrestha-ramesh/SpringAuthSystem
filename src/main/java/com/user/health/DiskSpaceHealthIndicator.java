@@ -4,12 +4,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.log.LogMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 
 @Component
+@ConditionalOnProperty(value = "DiskSpace-on.health-check", havingValue = "true")
 public class DiskSpaceHealthIndicator extends AbstractHealthIndicator {
 
     private static final Log logger = LogFactory.getLog(DiskSpaceHealthIndicator.class);
