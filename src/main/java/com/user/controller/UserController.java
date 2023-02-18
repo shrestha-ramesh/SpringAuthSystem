@@ -39,8 +39,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Not available",
                     content = {@Content(mediaType = "application/json")})
     })
-    @GetMapping("/home")
-    public Products getHome(){
+    @GetMapping("/product")
+    public Products getProduct(){
         Products products= productService.getProductAPI();
         return products;
     }
