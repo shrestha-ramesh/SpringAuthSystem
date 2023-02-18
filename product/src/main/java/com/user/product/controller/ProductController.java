@@ -1,4 +1,4 @@
-package com.user.module1.controller;
+package com.user.product.controller;
 
 import com.user.common.model.Product;
 import com.user.common.model.Products;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class Home {
+public class ProductController {
 
 
     @GetMapping("/car")
