@@ -44,7 +44,7 @@ public class UserLookUpServiceTest {
 
     @Test
     void whenIsEmailVerify_thenReturnUserRegister() throws Exception{
-        when(mockUserLookUpRepository.isEmailVerify(emailAddress)).thenReturn(userRegister);
+        when(mockUserLookUpRepository.findByEmailAddress(emailAddress)).thenReturn(userRegister);
         UserRegister userRegister1 = userLookUpService.isEmailVerify(emailAddress);
         Assertions.assertEquals(userRegister, userRegister1);
     }
