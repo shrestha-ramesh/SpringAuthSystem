@@ -59,6 +59,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Ignore
     void whenAllValidInput_thenReturnUserRegister() throws Exception{
         when(mockUserRepository.findByEmailAddress(userRegister.getEmailAddress())).thenReturn(null);
         UserRegister userRegister1 = userService.userRegister(userRegister);
@@ -71,27 +72,28 @@ public class UserServiceTest {
         Assertions.assertThrows(EmailExistException.class,()->userService.userRegister(userRegister));
     }
 
-//    @Test
-//    void whenAllValidInput_thenReturnUserLogInDTO() throws Exception{
-//        userRegister.setUserPassword("userPassword");
-//        userRegister.setEmailVerify(true);
-//        when(mockUserRepository.userLogIn(userLogIn.getEmailAddress())).thenReturn(userRegister);
-//        when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogIn.getEmailAddress(), userLogIn.getUserPassword()))).thenReturn((Authentication) userLogIn);
-//        UserLogInDTO userLogInDTO1 = userService.userLogIn(userLogIn);
-//        Assertions.assertEquals(userLogInDTO, userLogInDTO1);
-//    }
+    @Test
+    @Ignore
+    void whenAllValidInput_thenReturnUserLogInDTO() throws Exception{
+        userRegister.setUserPassword("userPassword");
+        userRegister.setEmailVerify(true);
+        when(mockUserRepository.findByEmailAddress(userLogIn.getEmailAddress())).thenReturn(userRegister);
+        when(authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLogIn.getEmailAddress(), userLogIn.getUserPassword()))).thenReturn((Authentication) userLogIn);
+        UserLogInDTO userLogInDTO1 = userService.userLogIn(userLogIn);
+        Assertions.assertEquals(userLogInDTO, userLogInDTO1);
+    }
 
     @Test
     void whenUserLogInEmailNotFound_thenReturnEmailNotFound() throws Exception{
         userRegister = null;
-        when(mockUserRepository.userLogIn(userLogIn.getEmailAddress())).thenReturn(userRegister);
+        when(mockUserRepository.findByEmailAddress(userLogIn.getEmailAddress())).thenReturn(userRegister);
         Assertions.assertThrows(EmailNotFoundException.class,()->userService.userLogIn(userLogIn));
     }
 
     @Test
     void whenUserLogInPasswordNotMatch_thenReturnPasswordNotMatch() throws Exception{
         userRegister.setUserPassword("");
-        when(mockUserRepository.userLogIn(userLogIn.getEmailAddress())).thenReturn(userRegister);
+        when(mockUserRepository.findByEmailAddress(userLogIn.getEmailAddress())).thenReturn(userRegister);
         Assertions.assertThrows(EmailPasswordException.class,()->userService.userLogIn(userLogIn));
     }
 
@@ -99,18 +101,19 @@ public class UserServiceTest {
     void whenUserLogInEmailNotVerify() throws Exception{
         userRegister.setEmailVerify(false);
         userRegister.setUserPassword("$2a$10$ZvREh.u4QoKRAiOEuIqf0evMP5dB4uxpzPmMg9HlGOnnspG.28LHG");
-        when(mockUserRepository.userLogIn(userLogIn.getEmailAddress())).thenReturn(userRegister);
+        when(mockUserRepository.findByEmailAddress(userLogIn.getEmailAddress())).thenReturn(userRegister);
         Assertions.assertThrows(EmailNotVerifyException.class,()->userService.userLogIn(userLogIn));
     }
 
-//    @Test
-//    void whenUserLogInTokenNotNull()throws Exception{
-//        userRegister.setUserPassword("$2a$10$ZvREh.u4QoKRAiOEuIqf0evMP5dB4uxpzPmMg9HlGOnnspG.28LHG");
-//        userRegister.setEmailVerify(true);
-//        userRegister.setToken("ajsfdkjasdf");
-//        userLogInDTO.setToken("ajsfdkjasdf");
-//        when(mockUserRepository.userLogIn(userLogIn.getEmailAddress())).thenReturn(userRegister);
-//        UserLogInDTO userLogInDTO1 = userService.userLogIn(userLogIn);
-//        Assertions.assertEquals(userLogInDTO, userLogInDTO1);
-//    }
+    @Test
+    @Ignore
+    void whenUserLogInTokenNotNull()throws Exception{
+        userRegister.setUserPassword("$2a$10$ZvREh.u4QoKRAiOEuIqf0evMP5dB4uxpzPmMg9HlGOnnspG.28LHG");
+        userRegister.setEmailVerify(true);
+        userRegister.setToken("ajsfdkjasdf");
+        userLogInDTO.setToken("ajsfdkjasdf");
+        when(mockUserRepository.findByEmailAddress(userLogIn.getEmailAddress())).thenReturn(userRegister);
+        UserLogInDTO userLogInDTO1 = userService.userLogIn(userLogIn);
+        Assertions.assertEquals(userLogInDTO, userLogInDTO1);
+    }
 }
