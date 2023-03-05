@@ -1,22 +1,16 @@
-package com.user.product.controller;
+package com.product.service;
 
-import com.user.common.model.Product;
-import com.user.common.model.Products;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.common.model.Product;
+import com.common.model.Products;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-public class ProductController {
+@Service
+public class ProductService {
 
-
-    @GetMapping("/car")
-    public Products Home(){
+    public Products getCar(){
         List<Product> listProduct = new ArrayList<>();
         Product a = new Product();
         a.setId(1);
@@ -30,8 +24,8 @@ public class ProductController {
         return Products.builder().products(listProduct).build();
     }
 
-    @GetMapping("/bike")
-    public Products module(){
+    public Products getBike(){
+        System.out.println("This is from Bike");
         List<Product> listProduct = new ArrayList<>();
         Product a = new Product();
         a.setId(1);

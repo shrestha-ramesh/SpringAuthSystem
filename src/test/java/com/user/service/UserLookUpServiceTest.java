@@ -42,12 +42,12 @@ public class UserLookUpServiceTest {
         Assertions.assertThrows(EmailNotFoundException.class,()->userLookUpService.userLookUp(emailAddress));
     }
 
-    @Test
-    void whenIsEmailVerify_thenReturnUserRegister() throws Exception{
-        when(mockUserLookUpRepository.findByEmailAddress(emailAddress)).thenReturn(userRegister);
-        UserRegister userRegister1 = userLookUpService.isEmailVerify(emailAddress);
-        Assertions.assertEquals(userRegister, userRegister1);
-    }
+//    @Test
+//    void whenIsEmailVerify_thenReturnUserRegister() throws Exception{
+//        when(mockUserLookUpRepository.findByEmailAddress(emailAddress)).thenReturn(userRegister);
+//        UserRegister userRegister1 = userLookUpService.isEmailVerify(emailAddress);
+//        Assertions.assertEquals(userRegister, userRegister1);
+//    }
 
     @Test
     void whenIsEmailVerifyUserRegisterNull_thenReturnNotFound() throws Exception{

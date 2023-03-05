@@ -1,6 +1,6 @@
 package com.user.service;
 
-import com.user.common.model.Products;
+import com.common.model.Products;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
