@@ -1,4 +1,4 @@
-package com.user.common.model;
+package com.common.model;
 
 import lombok.Data;
 import lombok.Builder;

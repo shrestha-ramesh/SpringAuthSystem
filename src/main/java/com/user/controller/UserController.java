@@ -1,10 +1,9 @@
 package com.user.controller;
 
-import com.user.common.model.Products;
+import com.common.model.Products;
 import com.user.model.user.UserLogIn;
 import com.user.dto.UserLogInDTO;
 import com.user.model.user.UserRegister;
-import com.user.service.ProductAPI;
 import com.user.service.ProductService;
 import com.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;

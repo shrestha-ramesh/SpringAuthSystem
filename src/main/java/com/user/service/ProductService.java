@@ -1,9 +1,8 @@
 package com.user.service;
 
-import com.user.common.model.Products;
+import com.common.model.Products;
 import com.user.model.product.ProductIdentity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
