@@ -1,5 +1,7 @@
 server:
   port: 8081
+  servlet:
+    context-path: /product
 
 spring:
   h2:
@@ -12,8 +14,13 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
+    data: classpath:db/data.sql
+    schema: classpath:db/schema.sql
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
 
 logging:
   level:
