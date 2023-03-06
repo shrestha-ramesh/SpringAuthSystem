@@ -40,13 +40,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'junit:junit:4.13.1'
 	compileOnly 'org.projectlombok:lombok'
-	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.4'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.4.0'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE'
-	testImplementation "com.github.tomakehurst:wiremock-jre8:2.34.0"
 }
 tasks.named('test') {
 	useJUnitPlatform()
