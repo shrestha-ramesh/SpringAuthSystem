@@ -1,7 +1,7 @@
-INSERT INTO PRODUCT(name, brand) VALUES('Civic', 'Honda');
-INSERT INTO PRODUCT(name, brand) VALUES('Toyota', 'Corolla');
-INSERT INTO PRODUCT(name, brand) VALUES('Hyundai', 'Venue');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Car', 'Civic', 'Honda');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Car', 'Toyota', 'Corolla');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Car', 'Hyundai', 'Venue');
 
-INSERT INTO PRODUCT(name, brand) VALUES('R15', 'Yamaha');
-INSERT INTO PRODUCT(name, brand) VALUES('Splendor', 'Hero');
-INSERT INTO PRODUCT(name, brand) VALUES('Apache', 'TVS');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Bike', 'R15', 'Yamaha');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Bike', 'Splendor', 'Hero');
+INSERT INTO PRODUCT(product, name, brand) VALUES('Bike', 'Apache', 'TVS');
