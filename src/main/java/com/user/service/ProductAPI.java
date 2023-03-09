@@ -14,12 +14,13 @@ import java.net.URI;
 @Component
 public class ProductAPI {
 
-    private String url = "http://localhost:8081";
+    private String url = "http://localhost:8081/product";
 
     public Products getCarBrands(){
+        String car = "Car";
         RestTemplate restTemplate = new RestTemplate();
         Products products;
-        URI carUri = UriComponentsBuilder.fromUriString(url).path("/car").build().toUri();
+        URI carUri = UriComponentsBuilder.fromUriString(url).path("/car/{car}").buildAndExpand(car).toUri();
         RequestEntity requestEntity = RequestEntity.get(carUri).header(HttpHeaders.AUTHORIZATION,"auth").build();
         try {
             ResponseEntity<Products> responseEntity = restTemplate.exchange(requestEntity, Products.class);
@@ -34,9 +35,10 @@ public class ProductAPI {
         return products;
     }
     public Products getBikeBrands(){
+        String bike = "Bike";
         RestTemplate restTemplate = new RestTemplate();
         Products products;
-        URI carUri = UriComponentsBuilder.fromUriString(url).path("/bike").build().toUri();
+        URI carUri = UriComponentsBuilder.fromUriString(url).path("/bike/{bike}").buildAndExpand(bike).toUri();
         RequestEntity requestEntity = RequestEntity.get(carUri).header(HttpHeaders.AUTHORIZATION,"auth").build();
         try {
             ResponseEntity<Products> responseEntity = restTemplate.exchange(requestEntity, Products.class);
