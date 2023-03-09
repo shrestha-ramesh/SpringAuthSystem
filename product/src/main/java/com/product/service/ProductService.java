@@ -14,13 +14,13 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Products getCar(){
-        List<Product> product = (List<Product>) productRepository.findAll();
+    public Products getCar(String car){
+        List<Product> product = productRepository.findByProduct(car);
         return Products.builder().products(product).build();
     }
 
-    public Products getBike(){
-        List<Product> product = (List<Product>) productRepository.findAll();
+    public Products getBike(String bike){
+        List<Product> product = productRepository.findByProduct(bike);
         return Products.builder().products(product).build();
     }
 }

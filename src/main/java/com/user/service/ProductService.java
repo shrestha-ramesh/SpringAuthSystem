@@ -12,13 +12,14 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class ProductService {
 
+    int min = 10;
+    int max = 20;
+    Supplier<Integer> getInt = ()-> (int)(Math.random()*(max-min+1)+min);
+
     private final ProductIdentity productIdentity;
     private final ProductAPI productAPI;
 
     public Products getProductAPI(){
-        int min = 10;
-        int max = 20;
-        Supplier<Integer> getInt = ()-> (int)(Math.random()*(max-min+1)+min);
         String productId = getInt.get() % 2 == 0 ? productIdentity.getBike() : productIdentity.getCar();
         HashMap<String, Supplier<Products>> getProducts = new HashMap<>(){{
             put(productIdentity.getCar(), ()-> productAPI.getBikeBrands());

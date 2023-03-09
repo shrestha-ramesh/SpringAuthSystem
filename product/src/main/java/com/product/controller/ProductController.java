@@ -4,6 +4,7 @@ import com.common.model.Products;
 
 import com.product.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +16,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/car")
-    public Products getCar(){
-        return productService.getCar();
+    @GetMapping("/car/{car}")
+    public Products getCar(@PathVariable String car){
+        return productService.getCar(car);
     }
 
-    @GetMapping("/bike")
-    public Products getBike(){
-        return productService.getBike();
+    @GetMapping("/bike/{bike}")
+    public Products getBike(@PathVariable String bike){
+        return productService.getBike(bike);
     }
 }
